@@ -4,18 +4,55 @@ import UserDaoI from "../interfaces/UserDao";
 
 export default class UserDao implements UserDaoI {
     async findAllUsers(): Promise<User[]> {
-        return await UserModel.find();
+        const userMongooseModels = await UserModel.find();
+        return userMongooseModels
+            .map((userMongooseModel) => {
+                return new User(
+                    userMongooseModel?._id.toString() ?? '',
+                    userMongooseModel?.username ?? '',
+                    userMongooseModel?.password ?? '',
+                    userMongooseModel?.firstName ?? '',
+                    userMongooseModel?.lastName ?? '',
+                    userMongooseModel?.email ?? ''
+                );
+            });
     }
     async findUserById(uid: string): Promise<any> {
-        return await UserModel.findById(uid);
+        const userMongooseModel = await UserModel.findById(uid);
+        return new User(
+            userMongooseModel?._id.toString() ?? '',
+            userMongooseModel?.username ?? '',
+            userMongooseModel?.password ?? '',
+            userMongooseModel?.firstName ?? '',
+            userMongooseModel?.lastName ?? '',
+            userMongooseModel?.email ?? ''
+        );
     }
     async createUser(user: User): Promise<User> {
-        return await UserModel.create(user);
+        const userMongooseModel = await UserModel.create(user);
+        return new User(
+            userMongooseModel?._id.toString() ?? '',
+            userMongooseModel?.username ?? '',
+            userMongooseModel?.password ?? '',
+            userMongooseModel?.firstName ?? '',
+            userMongooseModel?.lastName ?? '',
+            userMongooseModel?.email ?? ''
+        );
     }
-    async deleteUser(uid: string):  Promise<any> {
-        return await UserModel.deleteOne({_id: uid});
+    async deleteUser(uid: string): Promise<any> {
+        return UserModel.deleteOne({_id: uid});
     }
     async updateUser(uid: string, user: User): Promise<any> {
-        return await UserModel.updateOne({_id: uid}, {$set: user});
+        return UserModel.updateOne({_id: uid},
+            {
+                $set: {
+                    username: user.uName,
+                    password: user.pass,
+                    firstName: user.fName,
+                    lastName: user.lName,
+                    email: user.mail
+                }
+            }
+        );
     }
 }
