@@ -1,0 +1,105 @@
+[{
+  "_id": {
+    "$oid": "63423f4ef62dd8e79d5b58e0"
+  },
+  "username": "alice",
+  "password": "alice123",
+  "firstName": "Alice",
+  "lastName": "Wonderland",
+  "email": "alice@wonderland.com",
+  "accountType": "PERSONAL",
+  "maritalStatus": "SINGLE",
+  "location": {
+    "latitude": 0,
+    "longitude": 0
+  },
+  "joined": {
+    "$date": {
+      "$numberLong": "1665285966941"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63423f68f62dd8e79d5b58e2"
+  },
+  "username": "bob",
+  "password": "bob321",
+  "firstName": "Bob",
+  "lastName": "Hope",
+  "email": "bob@hope.com",
+  "accountType": "PERSONAL",
+  "maritalStatus": "SINGLE",
+  "location": {
+    "latitude": 0,
+    "longitude": 0
+  },
+  "joined": {
+    "$date": {
+      "$numberLong": "1665285992519"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63423f83f62dd8e79d5b58e4"
+  },
+  "username": "charlie",
+  "password": "charlie432",
+  "firstName": "Charlie",
+  "lastName": "Brown",
+  "email": "charlie@peanuts.com",
+  "accountType": "PERSONAL",
+  "maritalStatus": "SINGLE",
+  "location": {
+    "latitude": 0,
+    "longitude": 0
+  },
+  "joined": {
+    "$date": {
+      "$numberLong": "1665286019906"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63423f9ef62dd8e79d5b58e6"
+  },
+  "username": "nasa",
+  "password": "nasa321",
+  "firstName": "NASA",
+  "lastName": "Gov",
+  "email": "space@nasa.gov",
+  "accountType": "PERSONAL",
+  "maritalStatus": "SINGLE",
+  "location": {
+    "latitude": 0,
+    "longitude": 0
+  },
+  "joined": {
+    "$date": {
+      "$numberLong": "1665286046873"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "63423fb8f62dd8e79d5b58e8"
+  },
+  "username": "spacex",
+  "password": "spacex420",
+  "firstName": "SpaceX",
+  "email": "elon@spacex.com",
+  "accountType": "PERSONAL",
+  "maritalStatus": "SINGLE",
+  "location": {
+    "latitude": 0,
+    "longitude": 0
+  },
+  "joined": {
+    "$date": {
+      "$numberLong": "1665286072403"
+    }
+  },
+  "__v": 0
+}]
