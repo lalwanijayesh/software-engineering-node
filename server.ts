@@ -8,6 +8,8 @@ import UserDao from "./daos/UserDao";
 import TuitDao from "./daos/TuitDao";
 import UserController from "./controllers/UserController";
 import TuitController from "./controllers/TuitController";
+import LikeDao from "./daos/LikeDao";
+import LikeController from "./controllers/LikeController";
 
 const cors = require('cors')
 const app = express();
@@ -30,6 +32,8 @@ const userDao = new UserDao();
 const userController = new UserController(app, userDao);
 const tuitDao = new TuitDao();
 const tuitController = new TuitController(app, tuitDao);
+const likeDao = new LikeDao();
+const likeController = new LikeController(app, likeDao);
 
 app.get('/hello', (req: Request, res: Response) =>
     res.send('Welcome to Foundation of Software Engineering!'));
