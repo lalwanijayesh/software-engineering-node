@@ -5,11 +5,17 @@ import express, {Request, Response} from 'express';
 import mongoose from "mongoose";
 
 import UserDao from "./daos/UserDao";
-import TuitDao from "./daos/TuitDao";
 import UserController from "./controllers/UserController";
+import TuitDao from "./daos/TuitDao";
 import TuitController from "./controllers/TuitController";
 import LikeDao from "./daos/LikeDao";
 import LikeController from "./controllers/LikeController";
+import FollowDao from "./daos/FollowDao";
+import FollowController from "./controllers/FollowController";
+import BookmarkController from "./controllers/BookmarkController";
+import MessageController from "./controllers/MessageController";
+import BookmarkDao from "./daos/BookmarkDao";
+import MessageDao from "./daos/MessageDao";
 
 const cors = require('cors')
 const app = express();
@@ -34,9 +40,15 @@ const tuitDao = new TuitDao();
 const tuitController = new TuitController(app, tuitDao);
 const likeDao = new LikeDao();
 const likeController = new LikeController(app, likeDao);
+const followDao = new FollowDao();
+const followController = new FollowController(app, followDao);
+const bookmarkDao = new BookmarkDao();
+const bookmarkController = new BookmarkController(app, bookmarkDao);
+const messageDao = new MessageDao();
+const messageController = new MessageController(app, messageDao);
 
 app.get('/hello', (req: Request, res: Response) =>
-    res.send('Welcome to Foundation of Software Engineering!'));
+    res.send('Welcome to Tuiter API!'));
 
 /**
  * Start a server listening at port 4000 locally

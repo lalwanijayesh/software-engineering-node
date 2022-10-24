@@ -5,5 +5,5 @@ export default interface BookmarkController {
     userUnbookmarksTuit(req: Request, res: Response): void;
     findAllTuitsBookmarkedByUser(req: Request, res: Response): void;
     findAllUsersThatBookmarkedTuit(req: Request, res: Response): void;
-    viewUserBookmarkedTuit(req: Request, res: Response): void;
+    findUserBookmarkedTuit(req: Request, res: Response): void;
 };

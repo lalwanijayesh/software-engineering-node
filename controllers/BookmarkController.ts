@@ -11,27 +11,27 @@ export default class BookmarkController implements BookmarkControllerI {
         this.app.post('/users/:uid/bookmarks/:tid', this.userBookmarksTuit);
         this.app.delete('/users/:uid/bookmarks/:tid', this.userUnbookmarksTuit);
         this.app.get('/users/:uid/bookmarks', this.findAllTuitsBookmarkedByUser);
-        this.app.get('tuits/:tid/bookmarks', this.findAllUsersThatBookmarkedTuit);
-        this.app.get('/users/:uid/bookmarks/:tid', this.viewUserBookmarkedTuit);
+        this.app.get('/tuits/:tid/bookmarks', this.findAllUsersThatBookmarkedTuit);
+        this.app.get('/users/:uid/bookmarks/:tid', this.findUserBookmarkedTuit);
     }
-    userBookmarksTuit(req: Request, res: Response): void {
+
+    userBookmarksTuit = (req: Request, res: Response) =>
         this.bookmarkDao.userBookmarksTuit(req.params.uid, req.params.tid)
             .then(bookmarks => res.json(bookmarks));
-    }
-    userUnbookmarksTuit(req: Request, res: Response): void {
+
+    userUnbookmarksTuit = (req: Request, res: Response) =>
         this.bookmarkDao.userUnbookmarksTuit(req.params.uid, req.params.tid)
             .then(status => res.json(status));
-    }
-    findAllTuitsBookmarkedByUser(req: Request, res: Response): void {
+
+    findAllTuitsBookmarkedByUser = (req: Request, res: Response) =>
         this.bookmarkDao.findAllTuitsBookmarkedByUser(req.params.uid)
             .then(bookmarks => res.json(bookmarks));
-    }
-    findAllUsersThatBookmarkedTuit(req: Request, res: Response): void {
+
+    findAllUsersThatBookmarkedTuit = (req: Request, res: Response) =>
         this.bookmarkDao.findAllUsersThatBookmarkedTuit(req.params.tid)
             .then(bookmarks => res.json(bookmarks));
-    }
-    viewUserBookmarkedTuit(req: Request, res: Response): void {
-        this.bookmarkDao.viewUserBookmarkedTuit(req.params.uid, req.params.tid)
+
+    findUserBookmarkedTuit = (req: Request, res: Response) =>
+        this.bookmarkDao.findUserBookmarkedTuit(req.params.uid, req.params.tid)
             .then(bookmarks => res.json(bookmarks));
-    }
 };

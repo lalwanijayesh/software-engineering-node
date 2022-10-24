@@ -5,5 +5,5 @@ export default interface FollowDao {
     userUnfollowsAnotherUser(uid: String, fuid: String): Promise<any>;
     findAllUsersFollowedByUser(uid: String): Promise<Follow[]>;
     findAllUsersThatFollowUser(uid: String): Promise<Follow[]>;
-    viewUserFollowsAnotherUser(uid: String, fuid: String): Promise<Follow>;
+    findUserFollowsAnotherUser(uid: String, fuid: String): Promise<Follow>;
 };

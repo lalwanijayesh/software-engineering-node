@@ -21,23 +21,23 @@ export default class FollowDao implements FollowDaoI {
     async findAllUsersThatFollowUser(uid: String): Promise<Follow[]> {
         return FollowModel
             .find({userFollowed: uid})
-            .populate('userFollowing')
+            .populate('userFollowing', 'username')
             .exec();
     }
     async findAllUsersFollowedByUser(uid: String): Promise<Follow[]> {
         return FollowModel
             .find({userFollowing: uid})
-            .populate('userFollowed')
+            .populate('userFollowed', 'username')
             .exec();
     }
-    async viewUserFollowsAnotherUser(uid: String, fuid: String): Promise<Follow> {
+    async findUserFollowsAnotherUser(uid: String, fuid: String): Promise<Follow> {
         return FollowModel
             .findOne({
                 userFollowed: fuid,
                 userFollowing: uid
             })
-            .populate('userFollowed')
-            .populate('userFollowing')
+            .populate('userFollowed', 'username')
+            .populate('userFollowing', 'username')
             .exec();
     }
-}
+};

@@ -13,20 +13,20 @@ export default class LikeController implements LikeControllerI {
         this.app.post('/users/:uid/likes/:tid', this.userLikesTuit);
         this.app.delete('/users/:uid/likes/:tid', this.userUnlikesTuit);
     }
-    findAllTuitsLikedByUser(req: Request, res: Response): void {
-        this.likeDao.findAllTuitsLikedByUser(req.params.tid)
+
+    findAllUsersThatLikedTuit = (req: Request, res: Response) =>
+        this.likeDao.findAllUsersThatLikedTuit(req.params.tid)
             .then(likes => res.json(likes));
-    }
-    findAllUsersThatLikedTuit(req: Request, res: Response): void {
+
+    findAllTuitsLikedByUser = (req: Request, res: Response) =>
         this.likeDao.findAllTuitsLikedByUser(req.params.uid)
             .then(likes => res.json(likes));
-    }
-    userLikesTuit(req: Request, res: Response): void {
+
+    userLikesTuit = (req: Request, res: Response) =>
         this.likeDao.userLikesTuit(req.params.uid, req.params.tid)
             .then(likes => res.json(likes));
-    }
-    userUnlikesTuit(req: Request, res: Response): void {
-        this.likeDao.userLikesTuit(req.params.uid, req.params.tid)
+
+    userUnlikesTuit = (req: Request, res: Response) =>
+        this.likeDao.userUnlikesTuit(req.params.uid, req.params.tid)
             .then(status => res.json(status));
-    }
 };

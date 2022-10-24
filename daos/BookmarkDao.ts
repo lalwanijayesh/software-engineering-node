@@ -17,22 +17,22 @@ export default class BookmarkDao implements BookmarkDaoI {
     }
     async findAllTuitsBookmarkedByUser(uid: string): Promise<Bookmark[]> {
         return BookmarkModel.find({bookmarkedBy: uid})
-            .populate('bookmarkedTuit')
+            .populate('bookmarkedTuit', 'tuit')
             .exec();
     }
     async findAllUsersThatBookmarkedTuit(tid: string): Promise<Bookmark[]> {
         return BookmarkModel.find({bookmarkedTuit: tid})
-            .populate('bookmarkedBy')
+            .populate('bookmarkedBy', 'username')
             .exec();
     }
-    async viewUserBookmarkedTuit(uid: string, tid: String): Promise<Bookmark> {
+    async findUserBookmarkedTuit(uid: string, tid: String): Promise<Bookmark> {
         return BookmarkModel
             .findOne({
                 bookmarkedTuit: tid,
                 bookmarkedBy: uid
             })
-            .populate('bookmarkedTuit')
-            .populate('bookmarkedBy')
+            .populate('bookmarkedTuit', 'tuit')
+            .populate('bookmarkedBy', 'username')
             .exec();
     }
 };

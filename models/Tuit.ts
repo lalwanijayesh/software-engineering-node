@@ -6,11 +6,11 @@ export default class Tuit {
     private postedOn: Date = new Date();
     private postedBy: User | null = null;
 
-    constructor(id: string, tuit: string, postedOn: Date) {
+    constructor(id: string, tuit: string, postedOn: Date, postedBy: User) {
         this.id = id;
         this.tuit = tuit;
         this.postedOn = postedOn;
-        this.postedBy = null;
+        this.postedBy = postedBy;
     }
 
     public set author(user: User | null) { this.postedBy = user; }

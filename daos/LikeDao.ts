@@ -6,13 +6,13 @@ export default class LikeDao implements LikeDaoI {
     async findAllUsersThatLikedTuit(tid: String): Promise<Like[]> {
         return LikeModel
             .find({tuit: tid})
-            .populate('likedBy')
+            .populate('likedBy', 'username')
             .exec();
     }
     async findAllTuitsLikedByUser(uid: String): Promise<Like[]> {
         return LikeModel
             .find(({likedBy: uid}))
-            .populate('tuit')
+            .populate('tuit', 'tuit')
             .exec();
     }
     async userLikesTuit(uid: string, tid: String): Promise<Like> {
