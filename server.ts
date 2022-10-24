@@ -4,18 +4,12 @@
 import express, {Request, Response} from 'express';
 import mongoose from "mongoose";
 
-import UserDao from "./daos/UserDao";
 import UserController from "./controllers/UserController";
-import TuitDao from "./daos/TuitDao";
 import TuitController from "./controllers/TuitController";
-import LikeDao from "./daos/LikeDao";
 import LikeController from "./controllers/LikeController";
-import FollowDao from "./daos/FollowDao";
 import FollowController from "./controllers/FollowController";
 import BookmarkController from "./controllers/BookmarkController";
 import MessageController from "./controllers/MessageController";
-import BookmarkDao from "./daos/BookmarkDao";
-import MessageDao from "./daos/MessageDao";
 
 const cors = require('cors')
 const app = express();
@@ -34,18 +28,12 @@ const options = {
 
 mongoose.connect('mongodb://localhost:27017/tuiter', options);
 
-const userDao = new UserDao();
-const userController = new UserController(app, userDao);
-const tuitDao = new TuitDao();
-const tuitController = new TuitController(app, tuitDao);
-const likeDao = new LikeDao();
-const likeController = new LikeController(app, likeDao);
-const followDao = new FollowDao();
-const followController = new FollowController(app, followDao);
-const bookmarkDao = new BookmarkDao();
-const bookmarkController = new BookmarkController(app, bookmarkDao);
-const messageDao = new MessageDao();
-const messageController = new MessageController(app, messageDao);
+const userController = UserController.getInstance(app);
+const tuitController = TuitController.getInstance(app);
+const likeController = LikeController.getInstance(app);
+const followController = FollowController.getInstance(app);
+const bookmarkController = BookmarkController.getInstance(app);
+const messageController = MessageController.getInstance(app);
 
 app.get('/hello', (req: Request, res: Response) =>
     res.send('Welcome to Tuiter API!'));

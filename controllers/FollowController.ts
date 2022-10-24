@@ -3,36 +3,39 @@ import FollowDao from "../daos/FollowDao";
 import {Express, Request, Response} from "express";
 
 export default class FollowController implements FollowControllerI {
-    app: Express;
-    followDao: FollowDao;
-    constructor(app: Express, followDao: FollowDao) {
-        this.app = app;
-        this.followDao = followDao;
-        this.app.post('/users/:uid/follows/:fuid', this.userFollowsAnotherUser);
-        this.app.delete('/users/:uid/follows/:fuid', this.userUnfollowsAnotherUser);
-        this.app.get('/users/:uid/following', this.findAllUsersFollowedByUser);
-        this.app.get('/users/:uid/followers', this.findAllUsersThatFollowUser);
-        this.app.get('/users/:uid/follows/:fuid', this.findUserFollowsAnotherUser);
+    private static followDao: FollowDao = FollowDao.getInstance();
+    private static followController: FollowController | null = null;
+    public static getInstance = (app: Express): FollowController => {
+        if (FollowController.followController == null) {
+            FollowController.followController = new FollowController();
+            app.post('/users/:uid/follows/:fuid', FollowController.followController.userFollowsAnotherUser);
+            app.delete('/users/:uid/follows/:fuid', FollowController.followController.userUnfollowsAnotherUser);
+            app.get('/users/:uid/following', FollowController.followController.findAllUsersFollowedByUser);
+            app.get('/users/:uid/followers', FollowController.followController.findAllUsersThatFollowUser);
+            app.get('/users/:uid/follows/:fuid', FollowController.followController.findUserFollowsAnotherUser);
+        }
+        return FollowController.followController;
     }
+    private constructor() {}
 
     userFollowsAnotherUser = (req: Request, res: Response) =>
-        this.followDao.userFollowsAnotherUser(req.params.uid, req.params.fuid)
+        FollowController.followDao.userFollowsAnotherUser(req.params.uid, req.params.fuid)
             .then(follows => res.json(follows));
 
     userUnfollowsAnotherUser = (req: Request, res: Response) =>
-        this.followDao.userUnfollowsAnotherUser(req.params.uid, req.params.fuid)
+        FollowController.followDao.userUnfollowsAnotherUser(req.params.uid, req.params.fuid)
             .then(status => res.json(status));
 
     findAllUsersFollowedByUser = (req: Request, res: Response) =>
-        this.followDao.findAllUsersFollowedByUser(req.params.uid)
+        FollowController.followDao.findAllUsersFollowedByUser(req.params.uid)
             .then(follows => res.json(follows));
 
     findAllUsersThatFollowUser = (req: Request, res: Response) =>
-        this.followDao.findAllUsersThatFollowUser(req.params.uid)
+        FollowController.followDao.findAllUsersThatFollowUser(req.params.uid)
             .then(follows => res.json(follows));
 
     findUserFollowsAnotherUser = (req: Request, res: Response) =>
-        this.followDao.findUserFollowsAnotherUser(req.params.uid, req.params.fuid)
+        FollowController.followDao.findUserFollowsAnotherUser(req.params.uid, req.params.fuid)
             .then(follows => res.json(follows));
 
 };

@@ -3,41 +3,44 @@ import {Express, Request, Response} from "express";
 import MessageDao from "../daos/MessageDao";
 
 export default class MessageController implements MessageControllerI {
-    app: Express;
-    messageDao: MessageDao
-    constructor(app: Express, messageDao: MessageDao) {
-        this.app = app;
-        this.messageDao = messageDao;
-        this.app.post('/users/:uid/messages/:ruid', this.userMessagesAnotherUser);
-        this.app.get('/users/:uid/messages/sent', this.findMessagesSentByUser);
-        this.app.get('/users/:uid/messages/received', this.findMessagesReceivedByUser);
-        this.app.delete('/messages/:mid', this.deleteMessage);
-        this.app.put('/messages/:mid', this.updateMessage);
-        this.app.get('/users/:uid/messages/:ruid', this.findMessagesBetweenUsers);
+    private static messageDao: MessageDao = MessageDao.getInstance();
+    private static messageController: MessageController | null = null;
+    public static getInstance = (app: Express): MessageController => {
+        if (MessageController.messageController == null) {
+            MessageController.messageController = new MessageController();
+            app.post('/users/:uid/messages/:ruid', MessageController.messageController.userMessagesAnotherUser);
+            app.get('/users/:uid/messages/sent', MessageController.messageController.findMessagesSentByUser);
+            app.get('/users/:uid/messages/received', MessageController.messageController.findMessagesReceivedByUser);
+            app.delete('/messages/:mid', MessageController.messageController.deleteMessage);
+            app.put('/messages/:mid', MessageController.messageController.updateMessage);
+            app.get('/users/:uid/messages/:ruid', MessageController.messageController.findMessagesBetweenUsers);
+        }
+        return MessageController.messageController;
     }
+    private constructor() {}
 
     userMessagesAnotherUser = (req: Request, res: Response) =>
-        this.messageDao.userMessagesAnotherUser(req.params.uid, req.params.ruid, req.body.message)
+        MessageController.messageDao.userMessagesAnotherUser(req.params.uid, req.params.ruid, req.body.message)
             .then(message => res.json(message));
 
     findMessagesSentByUser = (req: Request, res: Response) =>
-        this.messageDao.findMessagesSentByUser(req.params.uid)
+        MessageController.messageDao.findMessagesSentByUser(req.params.uid)
             .then(messages => res.json(messages));
 
     findMessagesReceivedByUser = (req: Request, res: Response) =>
-        this.messageDao.findMessagesReceivedByUser(req.params.uid)
+        MessageController.messageDao.findMessagesReceivedByUser(req.params.uid)
             .then(messages => res.json(messages));
 
     deleteMessage = (req: Request, res: Response) =>
-        this.messageDao.deleteMessage(req.params.mid)
+        MessageController.messageDao.deleteMessage(req.params.mid)
             .then(status => res.json(status));
 
     updateMessage = (req: Request, res: Response) =>
-        this.messageDao.updateMessage(req.params.mid, req.body.message)
+        MessageController.messageDao.updateMessage(req.params.mid, req.body.message)
             .then(status => res.json(status));
 
     findMessagesBetweenUsers = (req: Request, res: Response) =>
-        this.messageDao.findMessagesBetweenUsers(req.params.uid, req.params.ruid)
+        MessageController.messageDao.findMessagesBetweenUsers(req.params.uid, req.params.ruid)
             .then(messages => res.json(messages));
 
 }

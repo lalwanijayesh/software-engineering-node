@@ -3,6 +3,15 @@ import Follow from "../models/Follow";
 import FollowModel from "../mongoose/FollowModel";
 
 export default class FollowDao implements FollowDaoI {
+    private static followDao: FollowDao | null = null;
+    public static getInstance = (): FollowDao => {
+        if (FollowDao.followDao == null) {
+            FollowDao.followDao = new FollowDao();
+        }
+        return FollowDao.followDao;
+    };
+    private constructor() {}
+
     async userFollowsAnotherUser(uid: String, fuid: String): Promise<Follow> {
         return FollowModel
             .create({

@@ -3,6 +3,15 @@ import Bookmark from "../models/Bookmark";
 import BookmarkModel from "../mongoose/BookmarkModel";
 
 export default class BookmarkDao implements BookmarkDaoI {
+    private static bookmarkDao: BookmarkDao | null = null;
+    public static getInstance = (): BookmarkDao => {
+        if (BookmarkDao.bookmarkDao == null) {
+            BookmarkDao.bookmarkDao = new BookmarkDao();
+        }
+        return BookmarkDao.bookmarkDao;
+    };
+    private constructor() {}
+
     async userBookmarksTuit(uid: string, tid: String): Promise<Bookmark> {
         return BookmarkModel.create({
             bookmarkedTuit: tid,
