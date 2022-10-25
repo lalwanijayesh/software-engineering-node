@@ -1,3 +1,6 @@
+/**
+ * @file Declares interface for RESTful web services related to messages.
+ */
 import {Request, Response} from "express";
 
 export default interface MessageController {
@@ -7,4 +10,4 @@ export default interface MessageController {
     deleteMessage(req: Request, res: Response): void;
     updateMessage(req: Request, res: Response): void;
     findMessagesBetweenUsers(req: Request, res: Response): void;
-}
+};

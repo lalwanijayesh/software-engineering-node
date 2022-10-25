@@ -1,3 +1,6 @@
+/**
+ * @file Declares interface for users related data access object methods.
+ */
 import User from "../models/User";
 
 export default interface UserDao {
@@ -6,4 +9,4 @@ export default interface UserDao {
     createUser(user: User): Promise<User>;
     deleteUser(uid: string): Promise<any>;
     updateUser(uid: string, user: User): Promise<any>;
-}
+};

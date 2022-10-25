@@ -1,3 +1,7 @@
+/**
+ * @file Implements mongoose schema to CRUD
+ * documents in the follows collection.
+ */
 import mongoose from "mongoose";
 
 const FollowSchema = new mongoose.Schema({

@@ -1,3 +1,6 @@
+/**
+ * @file Declares interface for RESTful web services related to bookmarks.
+ */
 import {Request, Response} from "express";
 
 export default interface BookmarkController {

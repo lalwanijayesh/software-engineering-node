@@ -1,3 +1,6 @@
+/**
+ * @file Declares interface for RESTful web services related to tuits.
+ */
 import {Request, Response} from "express";
 
 export default interface TuitController {
@@ -7,4 +10,4 @@ export default interface TuitController {
     createTuit(req: Request, res: Response): void;
     deleteTuit(req: Request, res: Response): void;
     updateTuit(req: Request, res: Response): void;
-}
+};

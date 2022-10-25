@@ -1,3 +1,7 @@
+/**
+ * @file Implements mongoose schema to CRUD
+ * documents in the messages collection.
+ */
 import mongoose from "mongoose";
 
 const MessageSchema = new mongoose.Schema({
