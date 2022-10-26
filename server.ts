@@ -13,6 +13,7 @@ const cors = require('cors')
 const app = express();
 app.use(cors());
 app.use(express.json());
+require('dotenv').config();
 
 const options = {
     useNewUrlParser: true,
@@ -24,7 +25,10 @@ const options = {
     family: 4
 }
 
-mongoose.connect('mongodb://localhost:27017/tuiter', options);
+const username = process.env.DB_USER;
+const password = process.env.DB_PWD;
+const url = process.env.DB_URL;
+mongoose.connect(`mongodb+srv://${username}:${password}@${url}/tuiter`, options);
 
 const userDao = new UserDao();
 const userController = new UserController(app, userDao);
