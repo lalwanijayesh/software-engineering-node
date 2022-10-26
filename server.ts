@@ -4,10 +4,12 @@
 import express, {Request, Response} from 'express';
 import mongoose from "mongoose";
 
-import UserDao from "./daos/UserDao";
-import TuitDao from "./daos/TuitDao";
 import UserController from "./controllers/UserController";
 import TuitController from "./controllers/TuitController";
+import LikeController from "./controllers/LikeController";
+import FollowController from "./controllers/FollowController";
+import BookmarkController from "./controllers/BookmarkController";
+import MessageController from "./controllers/MessageController";
 
 const cors = require('cors')
 const app = express();
@@ -30,13 +32,15 @@ const password = process.env.DB_PWD;
 const url = process.env.DB_URL;
 mongoose.connect(`mongodb+srv://${username}:${password}@${url}/tuiter`, options);
 
-const userDao = new UserDao();
-const userController = new UserController(app, userDao);
-const tuitDao = new TuitDao();
-const tuitController = new TuitController(app, tuitDao);
+const userController = UserController.getInstance(app);
+const tuitController = TuitController.getInstance(app);
+const likeController = LikeController.getInstance(app);
+const followController = FollowController.getInstance(app);
+const bookmarkController = BookmarkController.getInstance(app);
+const messageController = MessageController.getInstance(app);
 
 app.get('/hello', (req: Request, res: Response) =>
-    res.send('Welcome to Foundation of Software Engineering!'));
+    res.send('Welcome to Tuiter API!'));
 
 /**
  * Start a server listening at port 4000 locally

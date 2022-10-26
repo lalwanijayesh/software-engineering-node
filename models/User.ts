@@ -1,35 +1,37 @@
+/**
+ * @file Declares User data type representing the end user.
+ */
 import AccountType from "./AccountType";
 import MaritalStatus from "./MaritalStatus";
 import Location from "./Location";
 
+/**
+ * @typedef User Represents the end user.
+ * @property {string} username username of the user
+ * @property {string} password password set by the user
+ * @property {string} firstName first name of the user
+ * @property {string} lastName last name of the user
+ * @property {string} email user's email address
+ * @property {string} profilePhoto user's profile photo
+ * @property {AccountType} accountType the type of account
+ * @property {MaritalStatus} maritalStatus user's marital status
+ * @property {string} biography short bio of the user
+ * @property {Date} dateOfBirth user's birth date
+ * @property {Date} joined date when user starting using Tuiter
+ * @property {Location} location location of the user
+ */
 export default class User {
-    private id: string = '';
-    private username: string = '';
-    private password: string = '';
-    private firstName: string | null = null;
-    private lastName: string | null = null;
-    private email: string = '';
-    private profilePhoto: string | null = null;
-    private headerImage: string | null = null;
-    private accountType: AccountType = AccountType.Personal;
-    private maritalStatus: MaritalStatus = MaritalStatus.Single;
-    private biography: string | null = null;
-    private dateOfBirth: Date | null = null;
-    private joined: Date = new Date();
-    private location: Location | null = null;
-
-    constructor(id: string, username: string, password: string, firstName: string, lastName: string, email: string) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-    }
-
-    get uName() { return this.username; }
-    get pass() { return this.password; }
-    get fName() { return this.firstName; }
-    get lName() { return this.lastName; }
-    get mail() { return this.email; }
+    username: string = '';
+    password: string = '';
+    firstName: string | null = null;
+    lastName: string | null = null;
+    email: string = '';
+    profilePhoto: string | null = null;
+    headerImage: string | null = null;
+    accountType: AccountType = AccountType.Personal;
+    maritalStatus: MaritalStatus = MaritalStatus.Single;
+    biography: string | null = null;
+    dateOfBirth: Date | null = null;
+    joined: Date = new Date();
+    location: Location | null = null;
 };
