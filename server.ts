@@ -39,7 +39,7 @@ const followController = FollowController.getInstance(app);
 const bookmarkController = BookmarkController.getInstance(app);
 const messageController = MessageController.getInstance(app);
 
-app.get('/hello', (req: Request, res: Response) =>
+app.get('/', (req: Request, res: Response) =>
     res.send('Welcome to Tuiter API!'));
 
 /**
