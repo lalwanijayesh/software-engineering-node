@@ -1,5 +1,16 @@
 /**
- * @file Implements an Express Node HTTP server.
+ * @file Implements an Express Node HTTP server. Declares RESTful Web services
+ * enabling CRUD operations on the following resources:
+ * <ul>
+ *     <li>Users</li>
+ *     <li>Tuits</li>
+ *     <li>Likes</li>
+ *     <li>Follows</li>
+ *     <li>Bookmarks</li>
+ *     <li>Messages</li>
+ * </ul>
+ *
+ * Connects to a remote MongoDB instance hosted on the Atlas cloud database service.
  */
 import express, {Request, Response} from 'express';
 import mongoose from "mongoose";
@@ -27,11 +38,15 @@ const options = {
     family: 4
 }
 
-const username = process.env.DB_USER;
-const password = process.env.DB_PWD;
-const url = process.env.DB_URL;
-mongoose.connect(`mongodb+srv://${username}:${password}@${url}/tuiter`, options);
+// Build connection string and connect to database
+const PROTOCOL = "mongodb+srv";
+const DB_USERNAME = process.env.DB_USERNAME;
+const DB_PASSWORD = process.env.DB_PASSWORD;
+const DB_HOST = process.env.DB_HOST;
+const DB_NAME = "tuiter";
+mongoose.connect(`${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`, options);
 
+// Inject RESTful controllers for web service API
 const userController = UserController.getInstance(app);
 const tuitController = TuitController.getInstance(app);
 const likeController = LikeController.getInstance(app);
@@ -44,7 +59,7 @@ app.get('/', (req: Request, res: Response) =>
 
 /**
  * Start a server listening at port 4000 locally
- * but use environment variable PORT on Heroku if available.
+ * but use environment variable PORT on remote server if available.
  */
 const PORT = 4000;
 app.listen(process.env.PORT || PORT);
