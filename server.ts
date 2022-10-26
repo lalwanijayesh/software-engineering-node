@@ -22,9 +22,7 @@ import FollowController from "./controllers/FollowController";
 import BookmarkController from "./controllers/BookmarkController";
 import MessageController from "./controllers/MessageController";
 
-const cors = require('cors')
 const app = express();
-app.use(cors());
 app.use(express.json());
 require('dotenv').config();
 
