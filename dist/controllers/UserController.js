@@ -13,6 +13,8 @@ const UserDao_1 = __importDefault(require("../daos/UserDao"));
  *     <li>POST /users to create a new user instance</li>
  *     <li>DELETE /users/:userid to remove a particular user instance</li>
  *     <li>PUT /users/:userid to modify a particular user instance</li>
+ *     <li>DELETE /users to remote all user instances</li>
+ *     <li>DELETE /users/username/:username to remove all users with a particular username</li>
  * </ul>
  * @property {UserDao} userDao Singleton DAO implementing user CRUD operations
  * @property {UserController} userController Singleton controller implementing
@@ -64,6 +66,23 @@ class UserController {
          */
         this.updateUser = (req, res) => UserController.userDao.updateUser(req.params.userid, req.body)
             .then(status => res.json(status));
+        /**
+         * Removes all existing user instances
+         * @param {Request} req Represents request from client
+         * @param {Response} res Represents response to client, including status
+         * on whether all users were successfully removed or not
+         */
+        this.deleteAllUsers = (req, res) => UserController.userDao.deleteAllUsers()
+            .then(status => res.json(status));
+        /**
+         * Removes existing user instances with specified username
+         * @param {Request} req Represents request from client, including path
+         * parameter username identifying the users to be removed
+         * @param {Response} res Represents response to client, including status
+         * on whether users were successfully removed or not
+         */
+        this.deleteUsersByUsername = (req, res) => UserController.userDao.deleteUsersByUsername(req.params.username)
+            .then(status => res.json(status));
     }
 }
 exports.default = UserController;
@@ -82,6 +101,8 @@ UserController.getInstance = (app) => {
         app.post('/users', UserController.userController.createUser);
         app.delete('/users/:userid', UserController.userController.deleteUser);
         app.put('/users/:userid', UserController.userController.updateUser);
+        app.delete('/users', UserController.userController.deleteAllUsers);
+        app.delete('/users/username/:username', UserController.userController.deleteUsersByUsername);
     }
     return UserController.userController;
 };

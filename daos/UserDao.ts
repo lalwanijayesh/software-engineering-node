@@ -71,4 +71,21 @@ export default class UserDao implements UserDaoI {
             {$set: user}
         );
     }
+
+    /**
+     * Removes all existing users from the database
+     * @returns Promise To be notified when users are removed from the database
+     */
+    async deleteAllUsers(): Promise<any> {
+        return UserModel.deleteMany();
+    }
+
+    /**
+     * Removes all existing users by specified username from the database
+     * @param {string} username Username of the users to be removed
+     * @returns Promise To be notified when users are removed from the database
+     */
+    async deleteUsersByUsername(username: string): Promise<any> {
+        return UserModel.deleteMany({username: username});
+    }
 };

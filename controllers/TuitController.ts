@@ -16,6 +16,7 @@ import TuitControllerI from "../interfaces/TuitController";
  *     <li>POST /users/:uid/tuits to create a new tuit instance by given user</li>
  *     <li>DELETE /tuits/:tid to remove a particular tuit instance</li>
  *     <li>PUT /tuits/:tid to modify a particular tuit instance</li>
+ *     <li>DELETE /users/:uid/tuits to remove all tuits by given user</li>
  * </ul>
  * @property {TuitDao} tuitDao Singleton DAO implementing tuit CRUD operations
  * @property {TuitController} tuitController Singleton controller implementing
@@ -37,7 +38,8 @@ export default class TuitController implements TuitControllerI {
             app.get('/users/:uid/tuits', TuitController.tuitController.findTuitsByUser);
             app.post('/users/:uid/tuits', TuitController.tuitController.createTuit);
             app.delete('/tuits/:tid', TuitController.tuitController.deleteTuit);
-            app.put('/tuits/:tid', TuitController.tuitController.updateTuit)
+            app.put('/tuits/:tid', TuitController.tuitController.updateTuit);
+            app.delete('/users/:uid/tuits', TuitController.tuitController.deleteTuitsByUser);
         }
         return TuitController.tuitController;
     }
@@ -106,5 +108,17 @@ export default class TuitController implements TuitControllerI {
      */
     updateTuit = (req: Request, res: Response) =>
         TuitController.tuitDao.updateTuit(req.params.tid, req.body)
+            .then(status => res.json(status));
+
+    /**
+     * Removes all existing tuit instances by a specific user
+     * @param {Request} req Represents request from client, including the path
+     * parameter uid identifying the primary key of the user whose tuits are to
+     * removed
+     * @param {Response} res Represents response to client, including status
+     * on whether the tuits were successfully removed or not
+     */
+    deleteTuitsByUser = (req: Request, res: Response) =>
+        TuitController.tuitDao.deleteTuitsByUser(req.params.uid)
             .then(status => res.json(status));
 }

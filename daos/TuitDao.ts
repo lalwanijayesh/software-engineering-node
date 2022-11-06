@@ -52,7 +52,7 @@ export default class TuitDao implements TuitDaoI {
      */
     async findTuitById(tid: string): Promise<any> {
         return TuitModel
-            .findById(tid).populate('postedBy')
+            .findById(tid)
             .populate('postedBy', 'username')
             .exec();
     }
@@ -84,5 +84,14 @@ export default class TuitDao implements TuitDaoI {
     async updateTuit(tid: string, tuit: Tuit): Promise<any> {
         return TuitModel.updateOne({_id: tid},
             {$set: tuit})
+    }
+
+    /**
+     * Removes existing tuits by specific user from the database
+     * @param {string} uid Primary key of the user that posted the tuits
+     * @returns Promise To be notified when tuits are removed from the database
+     */
+    async deleteTuitsByUser(uid: string): Promise<any> {
+        return TuitModel.deleteMany({postedBy: uid});
     }
 }

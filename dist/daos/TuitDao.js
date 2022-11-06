@@ -50,7 +50,7 @@ class TuitDao {
     findTuitById(tid) {
         return __awaiter(this, void 0, void 0, function* () {
             return TuitModel_1.default
-                .findById(tid).populate('postedBy')
+                .findById(tid)
                 .populate('postedBy', 'username')
                 .exec();
         });
@@ -84,6 +84,16 @@ class TuitDao {
     updateTuit(tid, tuit) {
         return __awaiter(this, void 0, void 0, function* () {
             return TuitModel_1.default.updateOne({ _id: tid }, { $set: tuit });
+        });
+    }
+    /**
+     * Removes existing tuits by specific user from the database
+     * @param {string} uid Primary key of the user that posted the tuits
+     * @returns Promise To be notified when tuits are removed from the database
+     */
+    deleteTuitsByUser(uid) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return TuitModel_1.default.deleteMany({ postedBy: uid });
         });
     }
 }

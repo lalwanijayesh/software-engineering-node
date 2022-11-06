@@ -19,6 +19,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  */
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const cors_1 = __importDefault(require("cors"));
 const UserController_1 = __importDefault(require("./controllers/UserController"));
 const TuitController_1 = __importDefault(require("./controllers/TuitController"));
 const LikeController_1 = __importDefault(require("./controllers/LikeController"));
@@ -27,6 +28,7 @@ const BookmarkController_1 = __importDefault(require("./controllers/BookmarkCont
 const MessageController_1 = __importDefault(require("./controllers/MessageController"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
+app.use((0, cors_1.default)());
 require('dotenv').config();
 const options = {
     useNewUrlParser: true,
@@ -43,7 +45,8 @@ const DB_USERNAME = process.env.DB_USERNAME;
 const DB_PASSWORD = process.env.DB_PASSWORD;
 const DB_HOST = process.env.DB_HOST;
 const DB_NAME = "tuiter";
-mongoose_1.default.connect(`${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`, options);
+// mongoose.connect(`${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`, options);
+mongoose_1.default.connect('mongodb://localhost:27017/tuiter', options);
 // Inject RESTful controllers for web service API
 const userController = UserController_1.default.getInstance(app);
 const tuitController = TuitController_1.default.getInstance(app);

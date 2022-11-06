@@ -70,6 +70,25 @@ class UserDao {
             return UserModel_1.default.updateOne({ _id: uid }, { $set: user });
         });
     }
+    /**
+     * Removes all existing users from the database
+     * @returns Promise To be notified when users are removed from the database
+     */
+    deleteAllUsers() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return UserModel_1.default.deleteMany();
+        });
+    }
+    /**
+     * Removes all existing users by specified username from the database
+     * @param {string} username Username of the users to be removed
+     * @returns Promise To be notified when users are removed from the database
+     */
+    deleteUsersByUsername(username) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return UserModel_1.default.deleteMany({ username: username });
+        });
+    }
 }
 exports.default = UserDao;
 UserDao.userDao = null;
