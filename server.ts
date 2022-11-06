@@ -14,6 +14,7 @@
  */
 import express, {Request, Response} from 'express';
 import mongoose from "mongoose";
+import cors from 'cors';
 
 import UserController from "./controllers/UserController";
 import TuitController from "./controllers/TuitController";
@@ -24,6 +25,7 @@ import MessageController from "./controllers/MessageController";
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 require('dotenv').config();
 
 const options = {
