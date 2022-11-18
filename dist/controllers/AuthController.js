@@ -35,6 +35,20 @@ class AuthController {
                 res.json(insertedUser);
             }
         });
+        this.profile = (req, res) => {
+            const profile = req.session['profile'];
+            if (profile) {
+                profile.password = '';
+                res.json(profile);
+            }
+            else {
+                res.sendStatus(403);
+            }
+        };
+        this.logout = (req, res) => {
+            req.session.destroy(err => console.log(err));
+            res.sendStatus(200);
+        };
     }
 }
 exports.default = AuthController;
@@ -44,6 +58,8 @@ AuthController.getInstance = (app) => {
     if (AuthController.authController == null) {
         AuthController.authController = new AuthController();
         app.post('/auth/signup', AuthController.authController.signup);
+        app.post('/auth/profile', AuthController.authController.profile);
+        app.post('/auth/logout', AuthController.authController.logout);
     }
     return AuthController.authController;
 };
