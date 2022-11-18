@@ -83,6 +83,8 @@ class UserController {
          */
         this.deleteUsersByUsername = (req, res) => UserController.userDao.deleteUsersByUsername(req.params.username)
             .then(status => res.json(status));
+        this.findUserByUsername = (req, res) => UserController.userDao.findUserByUsername(req.params.username)
+            .then(user => res.json(user));
     }
 }
 exports.default = UserController;

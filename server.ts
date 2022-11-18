@@ -14,7 +14,10 @@
  */
 import express, {Request, Response} from 'express';
 import mongoose from "mongoose";
-import cors from 'cors';
+const cors = require('cors');
+
+const session = require('express-session');
+require('dotenv').config();
 
 import UserController from "./controllers/UserController";
 import TuitController from "./controllers/TuitController";
@@ -22,11 +25,30 @@ import LikeController from "./controllers/LikeController";
 import FollowController from "./controllers/FollowController";
 import BookmarkController from "./controllers/BookmarkController";
 import MessageController from "./controllers/MessageController";
+import AuthController from "./controllers/AuthController";
 
 const app = express();
+
+let sess = {
+    secret: process.env.SECRET,
+    saveUninitialized: false,
+    resave: false,
+    cookie: {
+        secure: false
+    }
+}
+
+if (process.env.ENV === 'PRODUCTION') {
+    app.set('trust proxy', 1);
+    sess.cookie.secure = true;
+}
+
+app.use(session(sess));
 app.use(express.json());
-app.use(cors());
-require('dotenv').config();
+app.use(cors({
+    credentials: true,
+    origin: 'http://localhost:3000'
+}));
 
 const options = {
     useNewUrlParser: true,
@@ -44,7 +66,8 @@ const DB_USERNAME = process.env.DB_USERNAME;
 const DB_PASSWORD = process.env.DB_PASSWORD;
 const DB_HOST = process.env.DB_HOST;
 const DB_NAME = "tuiter";
-mongoose.connect(`${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`, options);
+// mongoose.connect(`${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`, options);
+mongoose.connect('mongodb://localhost:27017/tuiter', options);
 
 // Inject RESTful controllers for web service API
 const userController = UserController.getInstance(app);
@@ -53,6 +76,7 @@ const likeController = LikeController.getInstance(app);
 const followController = FollowController.getInstance(app);
 const bookmarkController = BookmarkController.getInstance(app);
 const messageController = MessageController.getInstance(app);
+const authController = AuthController.getInstance(app);
 
 app.get('/', (req: Request, res: Response) =>
     res.send('Welcome to Tuiter API!'));

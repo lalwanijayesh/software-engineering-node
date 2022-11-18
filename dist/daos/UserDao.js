@@ -89,6 +89,11 @@ class UserDao {
             return UserModel_1.default.deleteMany({ username: username });
         });
     }
+    findUserByUsername(username) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return UserModel_1.default.findOne({ username: username });
+        });
+    }
 }
 exports.default = UserDao;
 UserDao.userDao = null;
