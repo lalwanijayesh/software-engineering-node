@@ -39,7 +39,9 @@ class TuitDao {
     findTuitsByUser(uid) {
         return __awaiter(this, void 0, void 0, function* () {
             return TuitModel_1.default
-                .find({ postedBy: uid });
+                .find({ postedBy: uid })
+                .populate('postedBy', 'username')
+                .exec();
         });
     }
     /**

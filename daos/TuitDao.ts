@@ -42,7 +42,9 @@ export default class TuitDao implements TuitDaoI {
      */
     async findTuitsByUser(uid: string): Promise<Tuit[]> {
         return TuitModel
-            .find({postedBy: uid});
+            .find({postedBy: uid})
+            .populate('postedBy', 'username')
+            .exec();
     }
 
     /**

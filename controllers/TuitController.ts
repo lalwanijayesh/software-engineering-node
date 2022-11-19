@@ -73,9 +73,13 @@ export default class TuitController implements TuitControllerI {
      * @param {Response} res Represents response to client, including the
      * body formatted as JSON containing the tuits posted by specified user
      */
-    findTuitsByUser = (req: Request, res: Response) =>
-        TuitController.tuitDao.findTuitsByUser(req.params.uid)
+    findTuitsByUser = (req: Request, res: Response) => {
+        // if uid is 'me' then find logged-in user id
+        let userId = req.params.uid === "me" && req.session['profile'] ?
+            req.session['profile']._id : req.params.uid;
+        TuitController.tuitDao.findTuitsByUser(userId)
             .then(tuits => res.json(tuits));
+    }
 
     /**
      * Creates a new tuit instance
@@ -84,9 +88,13 @@ export default class TuitController implements TuitControllerI {
      * @param {Response} res Represents response to client, including the
      * body formatted as JSON containing the new tuit that was inserted in the database
      */
-    createTuit = (req: Request, res: Response) =>
-        TuitController.tuitDao.createTuit(req.params.uid, req.body)
+    createTuit = (req: Request, res: Response) => {
+        // if uid is 'me' then find logged-in user id
+        let userId = req.params.uid === 'me' && req.session['profile'] ?
+            req.session['profile']._id : req.params.uid;
+        TuitController.tuitDao.createTuit(userId, req.body)
             .then(actualTuit => res.json(actualTuit));
+    }
 
     /**
      * Removes an existing tuit instance
