@@ -14,6 +14,7 @@ export default class AuthController implements AuthControllerI {
             app.post('/auth/signup', AuthController.authController.signup);
             app.post('/auth/profile', AuthController.authController.profile);
             app.post('/auth/logout', AuthController.authController.logout);
+            app.post('/auth/login', AuthController.authController.login);
         }
         return AuthController.authController;
     }
@@ -49,7 +50,30 @@ export default class AuthController implements AuthControllerI {
     }
 
     logout = (req: Request, res: Response) => {
-        req.session.destroy(err => console.log(err));
+        req.session.destroy((err) => {});
         res.sendStatus(200);
+    }
+
+    login = async (req: Request, res: Response) => {
+        const user = req.body;
+        const username = user.username;
+        const password = user.password;
+        const existingUser = await AuthController.userDao
+            .findUserByUsername(username);
+        if (!existingUser) {
+            res.sendStatus(403);
+            return;
+        }
+
+        const match = await bcrypt
+            .compare(password, existingUser.password);
+        if (match) {
+            existingUser.password = '******';
+            req.session['profile'] = existingUser;
+            res.json(existingUser);
+        } else {
+            res.sendStatus(403);
+        }
+
     }
 }

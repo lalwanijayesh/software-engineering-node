@@ -46,9 +46,30 @@ class AuthController {
             }
         };
         this.logout = (req, res) => {
-            req.session.destroy(err => console.log(err));
+            req.session.destroy((err) => { });
             res.sendStatus(200);
         };
+        this.login = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const user = req.body;
+            const username = user.username;
+            const password = user.password;
+            const existingUser = yield AuthController.userDao
+                .findUserByUsername(username);
+            if (!existingUser) {
+                res.sendStatus(403);
+                return;
+            }
+            const match = yield bcrypt_1.default
+                .compare(password, existingUser.password);
+            if (match) {
+                existingUser.password = '******';
+                req.session['profile'] = existingUser;
+                res.json(existingUser);
+            }
+            else {
+                res.sendStatus(403);
+            }
+        });
     }
 }
 exports.default = AuthController;
@@ -60,6 +81,7 @@ AuthController.getInstance = (app) => {
         app.post('/auth/signup', AuthController.authController.signup);
         app.post('/auth/profile', AuthController.authController.profile);
         app.post('/auth/logout', AuthController.authController.logout);
+        app.post('/auth/login', AuthController.authController.login);
     }
     return AuthController.authController;
 };
