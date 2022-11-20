@@ -3,6 +3,7 @@
  * the post made by the user on Tuiter.
  */
 import User from "./User";
+import Stats from "./Stats";
 
 /**
  * @typedef Tuit Represents the tuit posted by the user.
@@ -14,4 +15,5 @@ export default class Tuit {
     tuit: string = '';
     postedOn: Date = new Date();
     postedBy: User | null = null;
+    stats: Stats
 };

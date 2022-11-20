@@ -5,6 +5,7 @@
 import Tuit from "../models/Tuit";
 import TuitModel from "../mongoose/TuitModel";
 import TuitDaoI from "../interfaces/TuitDao";
+import Stats from "../models/Stats";
 
 /**
  * @class TuitDao Implements Data Access Object managing data
@@ -103,7 +104,7 @@ export default class TuitDao implements TuitDaoI {
      * @param {any} newStats JSON object containing new stats values
      * @returns Promise To be notified when tuit is updated in the database
      */
-    async updateLikes(tid: string, newStats: any): Promise<any> {
+    async updateStats(tid: string, newStats: Stats): Promise<any> {
         return TuitModel.updateOne({_id: tid},
             {$set: {stats: newStats}});
     }
