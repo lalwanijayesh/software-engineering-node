@@ -74,6 +74,12 @@ class LikeDao {
             });
         });
     }
+    /**
+     * Uses LikeModel to retrieve if user liked a specified tuit
+     * @param {string} uid Primary key of the user
+     * @param {string} tid Primary key of the tuit
+     * @returns Promise To be notified when like is retrieved from the database
+     */
     findUserLikesTuit(uid, tid) {
         return __awaiter(this, void 0, void 0, function* () {
             return LikeModel_1.default.findOne({
@@ -82,6 +88,11 @@ class LikeDao {
             });
         });
     }
+    /**
+     * Uses LikeModel to retrieve how many users liked a specified tuit
+     * @param {string} tid Primary key of the tuit
+     * @returns Promise To be notified when count is retrieved from the database
+     */
     countHowManyLikedTuit(tid) {
         return __awaiter(this, void 0, void 0, function* () {
             return LikeModel_1.default.count({ tuit: tid });

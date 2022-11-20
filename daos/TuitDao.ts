@@ -97,6 +97,12 @@ export default class TuitDao implements TuitDaoI {
         return TuitModel.deleteMany({postedBy: uid});
     }
 
+    /**
+     * Updates existing tuit in the database with new stats
+     * @param {string} tid Primary key of the tuit to be updated
+     * @param {any} newStats JSON object containing new stats values
+     * @returns Promise To be notified when tuit is updated in the database
+     */
     async updateLikes(tid: string, newStats: any): Promise<any> {
         return TuitModel.updateOne({_id: tid},
             {$set: {stats: newStats}});

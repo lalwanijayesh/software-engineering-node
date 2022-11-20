@@ -98,6 +98,12 @@ class TuitDao {
             return TuitModel_1.default.deleteMany({ postedBy: uid });
         });
     }
+    /**
+     * Updates existing tuit in the database with new stats
+     * @param {string} tid Primary key of the tuit to be updated
+     * @param {any} newStats JSON object containing new stats values
+     * @returns Promise To be notified when tuit is updated in the database
+     */
     updateLikes(tid, newStats) {
         return __awaiter(this, void 0, void 0, function* () {
             return TuitModel_1.default.updateOne({ _id: tid }, { $set: { stats: newStats } });

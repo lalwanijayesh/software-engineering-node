@@ -83,6 +83,13 @@ class UserController {
          */
         this.deleteUsersByUsername = (req, res) => UserController.userDao.deleteUsersByUsername(req.params.username)
             .then(status => res.json(status));
+        /**
+         * Retrieves specific user by their username
+         * @param {Request} req Represents request from client, including path
+         * parameter username identifying the primary key of the user to be retrieved
+         * @param {Response} res Represents response to client, including the
+         * body formatted as JSON containing the user that matches the username
+         */
         this.findUserByUsername = (req, res) => UserController.userDao.findUserByUsername(req.params.username)
             .then(user => res.json(user));
     }

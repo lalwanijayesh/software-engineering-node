@@ -75,6 +75,12 @@ export default class LikeDao implements LikeDaoI {
         });
     }
 
+    /**
+     * Uses LikeModel to retrieve if user liked a specified tuit
+     * @param {string} uid Primary key of the user
+     * @param {string} tid Primary key of the tuit
+     * @returns Promise To be notified when like is retrieved from the database
+     */
     async findUserLikesTuit(uid: string, tid: string): Promise<Like> {
         return LikeModel.findOne({
             tuit: tid,
@@ -82,6 +88,11 @@ export default class LikeDao implements LikeDaoI {
         });
     }
 
+    /**
+     * Uses LikeModel to retrieve how many users liked a specified tuit
+     * @param {string} tid Primary key of the tuit
+     * @returns Promise To be notified when count is retrieved from the database
+     */
     async countHowManyLikedTuit(tid: string): Promise<any> {
         return LikeModel.count({tuit: tid});
     }

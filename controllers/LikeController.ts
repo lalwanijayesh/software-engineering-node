@@ -14,6 +14,7 @@ import TuitDao from "../daos/TuitDao";
  *     <li>GET /users/:uid/likes to retrieve all tuits that were liked by a particular user</li>
  *     <li>POST /users/:uid/likes/:tid to create a new like instance</li>
  *     <li>DELETE /users/:uid/likes/:tid to remove a particular like instance</li>
+ *     <li>PUT /users/:uid/likes/:tid to toggle tuit likes by a particular user</li>
  * </ul>
  * @property {LikeDao} likeDao Singleton DAO implementing like CRUD operations
  * @property {LikeController} likeController Singleton controller implementing
@@ -83,7 +84,14 @@ export default class LikeController implements LikeControllerI {
     userUnlikesTuit = (req: Request, res: Response) =>
         LikeController.likeDao.userUnlikesTuit(req.params.uid, req.params.tid)
             .then(status => res.json(status));
-
+    /**
+     * Toggles tuit like by user by adding/removing like instance and updating
+     * respective stats values for the tuit instance
+     * @param {Request} req Represents request from client, including path
+     * parameter uid and tid, identifying the user and the tuit
+     * @param {Response} res Represents response to client, including the
+     * status code whether the operation was performed successfully or not
+     */
     userTogglesTuitLikes = async (req: Request, res: Response) => {
         const uid = req.params.uid;
         const tid = req.params.tid;

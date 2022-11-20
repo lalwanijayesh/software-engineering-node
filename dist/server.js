@@ -30,6 +30,7 @@ const BookmarkController_1 = __importDefault(require("./controllers/BookmarkCont
 const MessageController_1 = __importDefault(require("./controllers/MessageController"));
 const AuthController_1 = __importDefault(require("./controllers/AuthController"));
 const app = (0, express_1.default)();
+// Create and configure session parameters
 let sess = {
     secret: process.env.SECRET,
     saveUninitialized: false,
@@ -46,7 +47,7 @@ app.use(session(sess));
 app.use(express_1.default.json());
 app.use(cors({
     credentials: true,
-    origin: 'http://localhost:3000'
+    origin: true
 }));
 const options = {
     useNewUrlParser: true,

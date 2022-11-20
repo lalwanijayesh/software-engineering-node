@@ -89,6 +89,11 @@ class UserDao {
             return UserModel_1.default.deleteMany({ username: username });
         });
     }
+    /**
+     * Uses UserModel to retrieve single user document from users collection
+     * @param {string} username username of the user to retrieve
+     * @returns Promise To be notified when user is retrieved from database
+     */
     findUserByUsername(username) {
         return __awaiter(this, void 0, void 0, function* () {
             return UserModel_1.default.findOne({ username: username });
