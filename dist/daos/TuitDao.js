@@ -98,6 +98,11 @@ class TuitDao {
             return TuitModel_1.default.deleteMany({ postedBy: uid });
         });
     }
+    updateLikes(tid, newStats) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return TuitModel_1.default.updateOne({ _id: tid }, { $set: { stats: newStats } });
+        });
+    }
 }
 exports.default = TuitDao;
 TuitDao.tuitDao = null;

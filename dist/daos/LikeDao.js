@@ -74,6 +74,19 @@ class LikeDao {
             });
         });
     }
+    findUserLikesTuit(uid, tid) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return LikeModel_1.default.findOne({
+                tuit: tid,
+                likedBy: uid
+            });
+        });
+    }
+    countHowManyLikedTuit(tid) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return LikeModel_1.default.count({ tuit: tid });
+        });
+    }
 }
 exports.default = LikeDao;
 LikeDao.likeDao = null;
