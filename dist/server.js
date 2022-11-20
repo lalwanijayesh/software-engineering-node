@@ -65,8 +65,8 @@ const DB_USERNAME = process.env.DB_USERNAME;
 const DB_PASSWORD = process.env.DB_PASSWORD;
 const DB_HOST = process.env.DB_HOST;
 const DB_NAME = "tuiter";
-// mongoose.connect(`${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`, options);
-mongoose_1.default.connect('mongodb://localhost:27017/tuiter', options);
+mongoose_1.default.connect(`${PROTOCOL}://${DB_USERNAME}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`, options);
+// mongoose.connect('mongodb://localhost:27017/tuiter', options);
 // Inject RESTful controllers for web service API
 const userController = UserController_1.default.getInstance(app);
 const tuitController = TuitController_1.default.getInstance(app);
