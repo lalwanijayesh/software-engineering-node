@@ -5,6 +5,7 @@ import {Request, Response, Express} from "express";
 import LikeDao from "../daos/LikeDao";
 import LikeControllerI from "../interfaces/LikeController";
 import TuitDao from "../daos/TuitDao";
+import DislikeDao from "../daos/DislikeDao";
 
 /**
  * @class LikeController Implements RESTful Web service API for likes resource.
@@ -17,11 +18,14 @@ import TuitDao from "../daos/TuitDao";
  *     <li>PUT /users/:uid/likes/:tid to toggle tuit likes by a particular user</li>
  * </ul>
  * @property {LikeDao} likeDao Singleton DAO implementing like CRUD operations
+ * @property {DislikeDao} dislikeDao Singleton DAO implementing dislike CRUD operations
+ * @property {TuitDao} tuitDao Singleton DAO implementing tuit CRUD operations
  * @property {LikeController} likeController Singleton controller implementing
  * RESTful Web Service API
  */
 export default class LikeController implements LikeControllerI {
     private static likeDao: LikeDao = LikeDao.getInstance();
+    private static dislikeDao: DislikeDao = DislikeDao.getInstance();
     private static tuitDao: TuitDao = TuitDao.getInstance();
     private static likeController: LikeController | null = null;
     /**
@@ -111,6 +115,15 @@ export default class LikeController implements LikeControllerI {
             } else {
                 await LikeController.likeDao.userLikesTuit(userId, tid);
                 tuit.stats.likes = howManyLikedTuit + 1;
+                // if user disliked that tuit before, undo dislike and update dislike stats also
+                const userDislikedTuit = await LikeController.dislikeDao
+                    .findUserDislikesTuit(userId, tid);
+                if (userDislikedTuit) {
+                    const howManyDislikedTuit = await LikeController.dislikeDao
+                        .countHowManyDislikedTuit(tid);
+                    await LikeController.dislikeDao.userUndislikesTuit(userId, tid);
+                    tuit.stats.dislikes = howManyDislikedTuit - 1;
+                }
             }
             await LikeController.tuitDao.updateStats(tid, tuit.stats);
             res.sendStatus(200);

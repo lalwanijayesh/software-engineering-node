@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const LikeDao_1 = __importDefault(require("../daos/LikeDao"));
 const TuitDao_1 = __importDefault(require("../daos/TuitDao"));
+const DislikeDao_1 = __importDefault(require("../daos/DislikeDao"));
 /**
  * @class LikeController Implements RESTful Web service API for likes resource.
  * Defines the following HTTP endpoints:
@@ -25,6 +26,8 @@ const TuitDao_1 = __importDefault(require("../daos/TuitDao"));
  *     <li>PUT /users/:uid/likes/:tid to toggle tuit likes by a particular user</li>
  * </ul>
  * @property {LikeDao} likeDao Singleton DAO implementing like CRUD operations
+ * @property {DislikeDao} dislikeDao Singleton DAO implementing dislike CRUD operations
+ * @property {TuitDao} tuitDao Singleton DAO implementing tuit CRUD operations
  * @property {LikeController} likeController Singleton controller implementing
  * RESTful Web Service API
  */
@@ -93,8 +96,17 @@ class LikeController {
                 else {
                     yield LikeController.likeDao.userLikesTuit(userId, tid);
                     tuit.stats.likes = howManyLikedTuit + 1;
+                    // if user disliked that tuit before, undo dislike and update dislike stats also
+                    const userDislikedTuit = yield LikeController.dislikeDao
+                        .findUserDislikesTuit(userId, tid);
+                    if (userDislikedTuit) {
+                        const howManyDislikedTuit = yield LikeController.dislikeDao
+                            .countHowManyDislikedTuit(tid);
+                        yield LikeController.dislikeDao.userUndislikesTuit(userId, tid);
+                        tuit.stats.dislikes = howManyDislikedTuit - 1;
+                    }
                 }
-                yield LikeController.tuitDao.updateLikes(tid, tuit.stats);
+                yield LikeController.tuitDao.updateStats(tid, tuit.stats);
                 res.sendStatus(200);
             }
             catch (e) {
@@ -105,6 +117,7 @@ class LikeController {
 }
 exports.default = LikeController;
 LikeController.likeDao = LikeDao_1.default.getInstance();
+LikeController.dislikeDao = DislikeDao_1.default.getInstance();
 LikeController.tuitDao = TuitDao_1.default.getInstance();
 LikeController.likeController = null;
 /**

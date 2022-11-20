@@ -104,7 +104,7 @@ class TuitDao {
      * @param {any} newStats JSON object containing new stats values
      * @returns Promise To be notified when tuit is updated in the database
      */
-    updateLikes(tid, newStats) {
+    updateStats(tid, newStats) {
         return __awaiter(this, void 0, void 0, function* () {
             return TuitModel_1.default.updateOne({ _id: tid }, { $set: { stats: newStats } });
         });
