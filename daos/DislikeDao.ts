@@ -45,7 +45,12 @@ export default class DislikeDao implements DislikeDaoI {
     async findAllTuitsDislikedByUser(uid: string): Promise<Dislike[]> {
         return DislikeModel
             .find(({dislikedBy: uid}))
-            .populate('tuit', 'tuit')
+            .populate({
+                path: "tuit",
+                populate: {
+                    path: "postedBy"
+                }
+            })
             .exec();
     }
 
