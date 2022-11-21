@@ -37,18 +37,18 @@ let sess = {
     saveUninitialized: false,
     resave: false,
     cookie: {
-        secure: false
+        sameSite: process.env.NODE_ENV === "PRODUCTION" ? 'none' : 'lax',
+        secure: process.env.NODE_ENV === "PRODUCTION",
     }
 };
 if (process.env.ENV === 'PRODUCTION') {
     app.set('trust proxy', 1);
-    sess.cookie.secure = true;
 }
 app.use(session(sess));
 app.use(express_1.default.json());
 app.use(cors({
     credentials: true,
-    origin: true
+    origin: process.env.CORS_ORIGIN
 }));
 const options = {
     useNewUrlParser: true,
