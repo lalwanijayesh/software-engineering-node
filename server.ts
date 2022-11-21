@@ -49,7 +49,7 @@ app.use(session(sess));
 app.use(express.json());
 app.use(cors({
     credentials: true,
-    origin: process.env.CORS_ORIGIN
+    origin: true
 }));
 
 const options = {

@@ -51,10 +51,19 @@ class TuitController {
          */
         this.findTuitsByUser = (req, res) => {
             // if uid is 'me' then find logged-in user id
-            let userId = req.params.uid === "me" && req.session['profile'] ?
-                req.session['profile']._id : req.params.uid;
-            TuitController.tuitDao.findTuitsByUser(userId)
-                .then(tuits => res.json(tuits));
+            if (req.params.uid === "me") {
+                if (req.session['profile']) {
+                    TuitController.tuitDao.findTuitsByUser(req.session['profile']._id)
+                        .then(tuits => res.json(tuits));
+                }
+                else {
+                    res.sendStatus(403);
+                }
+            }
+            else {
+                TuitController.tuitDao.findTuitsByUser(req.params.uid)
+                    .then(tuits => res.json(tuits));
+            }
         };
         /**
          * Creates a new tuit instance

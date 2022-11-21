@@ -48,7 +48,7 @@ app.use(session(sess));
 app.use(express_1.default.json());
 app.use(cors({
     credentials: true,
-    origin: process.env.CORS_ORIGIN
+    origin: true
 }));
 const options = {
     useNewUrlParser: true,
